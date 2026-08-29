@@ -2,6 +2,24 @@
 #include <string.h>
 #include <glew.h>
 #include <glfw3.h>
+
+// Librerias para la generación de números aleatorios
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
+
+// Función para generar números aleatorios para los parametros rgb
+
+int RGB = 255;
+float red, green, blue;
+bool color_change = true;
+
+float random_rgb() {
+	return (rand() % (RGB + 1) ) / (float)RGB;
+}
+
+
+
 //Dimensiones de la ventana
 const int WIDTH = 800, HEIGHT = 800;
 GLuint VAO, VBO, shader;
@@ -109,7 +127,10 @@ void CompileShaders() {
 
 }
 int main()
-{
+{	
+	// Semilla para aleatoriedad
+	srand(time(NULL));
+
 	//Inicialización de GLFW
 	if (!glfwInit())
 	{
@@ -162,15 +183,30 @@ int main()
 	CrearTriangulo();
 	CompileShaders();
 
+	red = random_rgb();
+	green = random_rgb();
+	blue = random_rgb();
 
 	//Loop mientras no se cierra la ventana
 	while (!glfwWindowShouldClose(mainWindow))
 	{
+
+		if ( (int)glfwGetTime() % 2 == 0 && color_change==true) {
+
+			red = random_rgb();
+			green = random_rgb();
+			blue = random_rgb();
+			color_change = false;
+		}
+		else if ((int)glfwGetTime() % 2 != 0){
+			color_change = true;
+		}
+		
 		//Recibir eventos del usuario
 		glfwPollEvents();
 
 		//Limpiar la ventana
-		glClearColor(0.0f,0.0f,0.0f,1.0f);
+		glClearColor(red,green,blue,1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shader);
