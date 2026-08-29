@@ -18,8 +18,6 @@ float random_rgb() {
 	return (rand() % (RGB + 1) ) / (float)RGB;
 }
 
-
-
 //Dimensiones de la ventana
 const int WIDTH = 800, HEIGHT = 800;
 GLuint VAO, VBO, shader;
@@ -50,9 +48,99 @@ void main()											\n\
 void CrearTriangulo()
 {
 	GLfloat vertices[] = {
-		-1.0f, -1.0f,0.0f,
-		1.0f,-1.0f, 0.0f,
-		0.0f,1.0f,0.0f
+		// Letra D
+		-0.75f, -0.5f, 0.0f,
+		-0.70f, -0.5f, 0.0f,
+		-0.75f, 0.5f, 0.0f,
+		-0.70f, -0.5f, 0.0f,
+		-0.75f, 0.5f, 0.0f,
+		-0.70f, 0.5f, 0.0f,
+
+		-0.47f, 0.3f, 0.0f,
+		-0.42f, 0.3f, 0.0f,
+		-0.70f, 0.5f, 0.0f,
+		-0.70f, 0.5f, 0.0f,
+		-0.47f, 0.3f, 0.0f,
+		-0.70f, 0.45f, 0.0f,
+
+		-0.3f, 0.1f, 0.0f,
+		-0.35f, 0.1f, 0.0f,
+		-0.47f, 0.3f, 0.0f,
+		-0.47f, 0.3f, 0.0f,
+		-0.3f, 0.1f, 0.0f,
+		-0.42f, 0.3f, 0.0f,
+
+		-0.3f, 0.1f, 0.0f,
+		-0.3f, -0.1f, 0.0f,
+		-0.35f, 0.1f, 0.0f,
+		-0.3f, -0.1f, 0.0f,
+		-0.35f, 0.1f, 0.0f,
+		-0.35f, -0.1f, 0.0f,
+
+		-0.47f, -0.3f, 0.0f,
+		-0.42f, -0.3f, 0.0f,
+		-0.70f, -0.5f, 0.0f,
+		-0.70f, -0.5f, 0.0f,
+		-0.47f, -0.3f, 0.0f,
+		-0.70f, -0.45f, 0.0f,
+
+		-0.3f, -0.1f, 0.0f,
+		-0.35f, -0.1f, 0.0f,
+		-0.47f, -0.3f, 0.0f,
+		-0.47f, -0.3f, 0.0f,
+		-0.3f, -0.1f, 0.0f,
+		-0.42f, -0.3f, 0.0f,
+
+		// Letra A
+		-0.25f, -0.5f, 0.0f,
+		-0.20f, -0.5f, 0.0f,
+		-0.10f, 0.5f, 0.0f,
+		-0.20f, -0.5f, 0.0f,
+		-0.10f, 0.5f, 0.0f,
+		-0.05f, 0.5f, 0.0f,
+
+		-0.10f, 0.5f, 0.0f,
+		-0.10f, 0.45f, 0.0f,
+		0.10f, 0.45f, 0.0f,
+		-0.10f, 0.5f, 0.0f,
+		0.10f, 0.5f, 0.0f,
+		0.10f, 0.45f, 0.0f,
+
+		0.25f, -0.5f, 0.0f,
+		0.20f, -0.5f, 0.0f,
+		0.10f, 0.5f, 0.0f,
+		0.20f, -0.5f, 0.0f,
+		0.10f, 0.5f, 0.0f,
+		0.05f, 0.5f, 0.0f,
+
+		-0.15f, 0.025f, 0.0f,
+		-0.15f, -0.025f, 0.0f,
+		0.15f, -0.025f, 0.0f,
+		-0.15f, 0.025f, 0.0f,
+		0.15f, 0.025f, 0.0f,
+		0.15f, -0.025f, 0.0f,
+
+		// Letra V
+		0.30f, 0.5f, 0.0f,
+		0.35f, 0.5f, 0.0f,
+		0.55f, -0.5f, 0.0f,
+		0.35f, 0.5f, 0.0f,
+		0.55f, -0.5f, 0.0f,
+		0.60f, -0.5f, 0.0f,
+
+		0.7f, -0.5f, 0.0f,
+		0.55f, -0.5f, 0.0f,
+		0.7f, -0.45f,0.0f,
+		0.55f, -0.5f, 0.0f,
+		0.7f, -0.45f,0.0f,
+		0.55f, -0.45f, 0.0f,
+
+		0.65f, -0.5f, 0.0f,
+		0.70f, -0.5f, 0.0f,
+		0.90f, 0.5f, 0.0f,
+		0.70f, -0.5f, 0.0f,
+		0.90f, 0.5f, 0.0f,
+		0.95f, 0.5f, 0.0f,
 	};
 	glGenVertexArrays(1, &VAO); //generar 1 VAO
 	glBindVertexArray(VAO);//asignar VAO
@@ -190,9 +278,8 @@ int main()
 	//Loop mientras no se cierra la ventana
 	while (!glfwWindowShouldClose(mainWindow))
 	{
-
+		// Cambio de color cada 2 segundos
 		if ( (int)glfwGetTime() % 2 == 0 && color_change==true) {
-
 			red = random_rgb();
 			green = random_rgb();
 			blue = random_rgb();
@@ -212,7 +299,7 @@ int main()
 		glUseProgram(shader);
 
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES,0,3);
+		glDrawArrays(GL_TRIANGLES,0,100);
 		glBindVertexArray(0);
 
 		glUseProgram(0);
