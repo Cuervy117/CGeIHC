@@ -24,6 +24,11 @@ static const char* vShader = "shaders/shader.vert";
 static const char* fShader = "shaders/shader.frag";
 static const char* vShaderColor = "shaders/shadercolor.vert";
 static const char* fShaderColor = "shaders/shadercolor.frag";
+static const char* vShaderRojo = "shaders/shaderRojo.vert";
+static const char* vShaderAzul = "shaders/shaderAzul.vert";
+static const char* vShaderVerde = "shaders/shaderVerde.vert";
+static const char* vShaderCafe = "shaders/shaderCafe.vert";
+static const char* vShaderMorado = "shaders/shaderMorado.vert";
 //shaders nuevos se crearían acá
 
 float angulo = 0.0f;
@@ -264,20 +269,60 @@ void CreateShaders()
 	Shader *shader2 = new Shader();//shader para usar color como parte del VAO: letras 
 	shader2->CreateFromFiles(vShaderColor, fShaderColor);
 	shaderList.push_back(*shader2);
+
+	Shader* shaderRojo = new Shader(); // Índice 2
+	shaderRojo->CreateFromFiles("shaders/shaderRojo.vert", fShader);
+	shaderList.push_back(*shaderRojo);
+
+	Shader* shaderVerde = new Shader(); // Índice 3 
+	shaderVerde->CreateFromFiles("shaders/shaderVerde.vert", fShader);
+	shaderList.push_back(*shaderVerde);
+
+	Shader* shaderAzul = new Shader(); // Índice 4 
+	shaderAzul->CreateFromFiles("shaders/shaderAzul.vert", fShader);
+	shaderList.push_back(*shaderAzul);
+
+	Shader* shaderMorado = new Shader(); // Índice 5
+	shaderMorado->CreateFromFiles("shaders/shaderMorado.vert", fShader);
+	shaderList.push_back(*shaderMorado);
+
+	Shader* shaderCafe = new Shader(); // Índice 6 
+	shaderCafe->CreateFromFiles("shaders/shaderCafe.vert", fShader);
+	shaderList.push_back(*shaderCafe);
+
+	Shader* shaderAmarillo = new Shader(); // Índice 7 
+	shaderAmarillo->CreateFromFiles("shaders/shaderAmarillo.vert", fShader);
+	shaderList.push_back(*shaderAmarillo);
+
+	Shader* shaderNegro = new Shader(); // Índice 7 
+	shaderNegro->CreateFromFiles("shaders/shaderNegro.vert", fShader);
+	shaderList.push_back(*shaderNegro);
+
 }
+
+void usarShader(int indice, GLuint& uniformModel, GLuint& uniformProjection)
+{
+	shaderList[indice].useShader();
+	uniformModel = shaderList[indice].getModelLocation();
+	uniformProjection = shaderList[indice].getProjectLocation();
+};
 
 
 int main()
 {
 	mainWindow = Window(800, 800);
 	mainWindow.Initialise();
-	CrearLetrasyFiguras(); //usa MeshColor, índices en MeshColorList
+	// CrearLetrasyFiguras(); //usa MeshColor, índices en MeshColorList
+
+	CreaPiramide();
+	CrearCubo();
+
 	CreateShaders();
 	GLuint uniformProjection = 0;
 	GLuint uniformModel = 0;
 	//Projection: Matriz de Dimensión 4x4 para indicar si vemos en 2D( orthogonal) o en 3D) perspectiva
 	glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);
-	//glm::mat4 projection = glm::perspective(glm::radians(60.0f)	,mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 100.0f);
+	//glm::mat4 projection = glm::perspective(glm::radians(30.0f)	,mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 100.0f);
 	
 	//Model: Matriz de Dimensión 4x4 en la cual se almacena la multiplicación de las transformaciones geométricas.
 	glm::mat4 model(1.0); //fuera del while se usa para inicializar la matriz con una identidad
@@ -291,8 +336,11 @@ int main()
 		glClearColor(0.98f,0.96f,0.85f,0.5f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Se agrega limpiar el buffer de profundidad
 		
-													
-		//Para las letras hay que usar el segundo set de shaders con índice 1 en ShaderList 
+
+		// Actividad 1
+		/*
+		
+		//Para las letras hay que usar el segundo set de shaders con índice 1 en ShaderList
 		shaderList[1].useShader();
 		uniformModel = shaderList[1].getModelLocation();
 		uniformProjection = shaderList[1].getProjectLocation();
@@ -314,138 +362,156 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		meshColorList[3]->RenderMeshColor();
+		*/
 
-		/*
+		// Actividad 2
+
 		//Inicializar matriz de dimensión 4x4 que servirá como matriz de modelo para almacenar las transformaciones geométricas
 		// Base 
+
+		usarShader(8, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -0.5f, -4.0f));
 		model = glm::scale(model, glm::vec3(1.8f, 0.05f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[7]->RenderMeshColor();
+		meshList[1]->RenderMesh();
 
+		
 		// Parte 1
+		usarShader(6, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.8f, 0.125f, -4.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 1.2f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[6]->RenderMeshColor();
+		meshList[1]->RenderMesh();
 
+		usarShader(6, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.4f, 0.125f, -4.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 1.2f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[6]->RenderMeshColor();
+		meshList[1]->RenderMesh();
 
+		usarShader(3, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.6f, -0.3f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.175f, 0.175f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.5f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[3]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(2, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.6f, 0.05f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.175f, 0.175f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.5f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[1]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(7, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.6f, 0.4f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.175f, 0.175f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.5f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[8]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		
 		// Parte 2
+		usarShader(4, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -0.19f, -4.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.5f));
 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[10]->RenderMeshColor();
+		meshList[1]->RenderMesh();
 
+		usarShader(6, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -0.19f, -3.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.5f));
 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[6]->RenderMeshColor();
+		meshList[1]->RenderMesh();
 
+		usarShader(3, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.21f, -0.405f, -4.0f));
 		model = glm::rotate(model, glm::radians(-135.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(0.2055f, 0.10255f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.411f, 0.2051f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[3]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(2, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.21f, 0.02f, -4.0f));
 		model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(0.2055f, 0.10255f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.411f, 0.2051f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[1]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(5, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.21f, -0.405f, -4.0f));
 		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(0.2055f, 0.10255f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.411f, 0.2051f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[9]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(7, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-0.21f, 0.02f, -4.0f));
 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(0.2055f, 0.10255f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.411f, 0.2051f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[8]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
 		// Parte 3
+		usarShader(3, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.450f, -0.35f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.13f, 0.13f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.26f, 0.26f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[3]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(2, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.71f, -0.35f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.13f, 0.13f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.26f, 0.26f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[1]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(7, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.58f, -0.35f, -4.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::scale(model, glm::vec3(0.13f, 0.13f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.26f, 0.26f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[8]->RenderMeshColor();
+		meshList[0]->RenderMesh();
 
+		usarShader(5, uniformModel, uniformProjection);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.58f, -0.09f, -4.0f));
-		model = glm::scale(model, glm::vec3(0.13f, 0.13f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.26f, 0.26f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));//FALSE ES PARA QUE NO SEA TRANSPUESTA y se envían al shader como variables de tipo uniform
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		meshColorList[9]->RenderMeshColor();
-		*/
+		meshList[0]->RenderMesh();
 
-		
-		
 		glUseProgram(0);
 		mainWindow.swapBuffers();
 
