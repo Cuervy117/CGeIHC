@@ -339,27 +339,27 @@ int main()
 		}
 
 		// Rotación del satélite en los ejes X, Y, Z con teclas X, C, Z (y tecla V para reiniciar rotación)
-		// Tecla X -> Rotación en Eje X
+		// Tecla X 
 		if (mainWindow.getsKeys()[GLFW_KEY_X])
 		{
 			rotSateliteX += 5.0f * deltaTime;
 		}
-		// Tecla C -> Rotación en Eje Y
+		// Tecla C 
 		if (mainWindow.getsKeys()[GLFW_KEY_C])
 		{
 			rotSateliteY += 5.0f * deltaTime;
 		}
-		// Tecla Z -> Rotación en Eje Z
+		// Tecla Z 
 		if (mainWindow.getsKeys()[GLFW_KEY_Z])
 		{
 			rotSateliteZ += 5.0f * deltaTime;
 		}
-		// Tecla B -> Rotación del aspa sobre el Eje Z
+		// Tecla B 
 		if (mainWindow.getsKeys()[GLFW_KEY_B])
 		{
 			rotAspa += 5.0f * deltaTime;
 		}
-		// Tecla V -> Reiniciar rotación
+		// Tecla V 
 		if (mainWindow.getsKeys()[GLFW_KEY_V])
 		{
 			rotSateliteX = 0.0f;
