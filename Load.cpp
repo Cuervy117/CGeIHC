@@ -78,17 +78,39 @@ void LoadHolocron()
 	recursos.Holocron_M.LoadModel("Models/holocron/holo_texturizado.obj");
 }
 
-void LoadSkybox()
+void LoadSkyboxP1()
 {
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebulaft.png");  // -Z frente
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebulabk.png");  // +Z atras
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebuladn.png");  // -Y abajo
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebulaup.png");  // +Y arriba
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebulart.png");  // +X derecha
+	skyboxFaces.push_back("Textures/spacenebulaskybox/nebulalf.png");  // -X izquierda
 
 	recursos.skybox = Skybox(skyboxFaces);
+}
+
+void LoadNave()
+{
+	recursos.Nave_M = Model();
+	recursos.Nave_M.LoadModel("Models/Fighter_03_Obj/Fighter_03.obj");
+}
+
+void LoadLlamas()
+{
+	// Textura de fuego/plasma generada para las llamas de los motores.
+	recursos.llamaTexture = Texture("Textures/fuego.png");
+	recursos.llamaTexture.LoadTextureA();
+}
+
+void LoadAsteroide()
+{
+	// Asteroide 
+	recursos.Asteroide_M = Model();
+	recursos.Asteroide_M.LoadModel("Models/asteroide/Rocky_Asteroid_6.obj");
+	recursos.plainTexture = Texture("Textures/plain.png");
+	recursos.plainTexture.LoadTextureA();
 }
 
 void LoadAll()
@@ -103,6 +125,12 @@ void LoadAll()
 
 	LoadHolocron();
 
-	LoadSkybox();
+	LoadNave();
+
+	LoadLlamas();
+
+	LoadAsteroide();
+
+	LoadSkyboxP1();
 
 }

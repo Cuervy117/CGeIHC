@@ -17,6 +17,7 @@ struct Recursos
 	Texture AgaveTexture;
 	Texture dadoTexture;
 	Texture holocronTexture;
+	Texture llamaTexture;
 
 	// Modelos
 	Model Blackhawk_M;
@@ -37,6 +38,10 @@ struct Recursos
 
 	Model Holocron_M;
 
+	Model Nave_M;
+
+	Model Asteroide_M;
+
 	// Skybox
 	Skybox skybox;
 };
@@ -48,7 +53,12 @@ void LoadTextures();        // las 7 texturas del escenario
 void LoadBlackhawk();       // Blackhawk (uh60.obj)
 void LoadRover();           // las 11 piezas del rover jerarquico
 void LoadAvion();           // avion_texturizado.obj
-void LoadSkybox();          // cupertin-lake
+void LoadSkyboxP1();          // cupertin-lake
 void LoadHolocron();        // holo_texturizado.obj
+
+// Practica 8 (escena nueva; estas se llaman desde el main)
+void LoadNave();            // modelo de la nave espacial
+void LoadLlamas();          // textura de fuego/plasma de los motores
+void LoadAsteroide();       // asteroide gris que recibe las luces de la nave
 
 void LoadAll();

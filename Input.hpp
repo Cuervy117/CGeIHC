@@ -23,10 +23,21 @@ struct EstadoEscena
 	// Holocron
 	glm::vec3 holocronPos;
 
+	// Nave (practica 8)
+	glm::vec3 navePos;
+	GLfloat   naveYaw;
+	GLfloat   naveScale;
+	GLfloat   naveSpeed;
+
 	// Luces: las teclas solo escriben estas banderas.
 	unsigned int colorFaro;         
 	bool holocronEncendida;
 	bool pinzaEncendida;
+
+	// Practica 8: nave con dos motores
+	bool naveEncendida;     // N -> point light + spotlight de la nave
+	bool motor1Encendido;   // 1 -> llama + point light del motor 1
+	bool motor2Encendido;   // 2 -> llama + point light del motor 2
 };
 
 extern EstadoEscena escena;

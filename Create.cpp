@@ -293,3 +293,22 @@ void CreateScene()
 	CrearDado();       // cubo con los logos               
 	CrearHolocron();   // holocron                         
 }
+void CrearLlamas()
+{
+	
+	float llamaVertices[] = {
+		-0.45f, -0.45f, 0.0f,   0.0f, 1.0f,   0.0f, 0.0f, -1.0f,
+		 0.45f, -0.45f, 0.0f,   1.0f, 1.0f,   0.0f, 0.0f, -1.0f,
+		 0.45f,  0.45f, 0.0f,   1.0f, 0.0f,   0.0f, 0.0f, -1.0f,
+		-0.45f,  0.45f, 0.0f,   0.0f, 0.0f,   0.0f, 0.0f, -1.0f
+	};
+
+	unsigned int llamaIndices[] = {
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	geometria.llamaMesh = new MeshModel();
+	geometria.llamaMesh->CreateMeshModel(llamaVertices, llamaIndices, 4 * 8, 6);
+	geometria.meshListModel.push_back(geometria.llamaMesh);
+}
